@@ -38,12 +38,18 @@ public class ProjectileMove : MonoBehaviour
         {
             Destroy(this.gameObject);                               
             other.gameObject.GetComponent<Monster>().Damaged(1);
+            GameObject Temp = GameObject.FindGameObjectWithTag("GameManager");
+            Temp.GetComponent<HUDTextManager>().UpdateHUDTextSet(
+                "1", other.gameObject, new Vector3(0.0f, 10.0f, 0.0f));
         }
 
         if (other.CompareTag("Player") && projectileType == PROJECTILETYPE.MONSTER)   //Tag 를 검사한다.
         {
             Destroy(this.gameObject);
             other.gameObject.GetComponent<PlayerHp>().Damaged(1);
+            GameObject Temp = GameObject.FindGameObjectWithTag("GameManager");
+            Temp.GetComponent<HUDTextManager>().UpdateHUDTextSet(
+                "1", other.gameObject, new Vector3(0.0f, 10.0f, 0.0f));
         }
     }
 }
