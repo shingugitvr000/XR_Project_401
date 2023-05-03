@@ -14,6 +14,8 @@ public class ProjectileMove : MonoBehaviour
 
     public PROJECTILETYPE projectileType;
 
+    protected FxManager FxManager => FxManager.Instance;
+
     private void FixedUpdate()
     {
         float moveAmount = 10 * Time.fixedDeltaTime;             //이동 속도 설정
@@ -41,6 +43,9 @@ public class ProjectileMove : MonoBehaviour
             GameObject Temp = GameObject.FindGameObjectWithTag("GameManager");
             Temp.GetComponent<HUDTextManager>().UpdateHUDTextSet(
                 "1", other.gameObject, new Vector3(0.0f, 10.0f, 0.0f));
+
+            FxManager.PlayFx(this.gameObject.transform, FxType.hit, Vector3.zero);
+
         }
 
         if (other.CompareTag("Player") && projectileType == PROJECTILETYPE.MONSTER)   //Tag 를 검사한다.
@@ -50,6 +55,8 @@ public class ProjectileMove : MonoBehaviour
             GameObject Temp = GameObject.FindGameObjectWithTag("GameManager");
             Temp.GetComponent<HUDTextManager>().UpdateHUDTextSet(
                 "1", other.gameObject, new Vector3(0.0f, 10.0f, 0.0f));
+
+            FxManager.PlayFx(this.gameObject.transform, FxType.hit, Vector3.zero);
         }
     }
 }
