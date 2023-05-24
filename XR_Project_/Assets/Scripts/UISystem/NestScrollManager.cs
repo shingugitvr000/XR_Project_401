@@ -66,13 +66,46 @@ public class NestScrollManager : MonoBehaviour, IBeginDragHandler , IDragHandler
                 targetPos = curPos + distance;
             }
         }
+
+        VerticalScrollUp();
     }
+
+    void VerticalScrollUp()
+    {
+        for(int i = 0; i < SIZE; i++)
+        {
+            if (contentTr.GetChild(i).GetComponent<ScrollScript>() && curPos != pos[i] && targetPos == pos[i])
+                contentTr.GetChild(i).GetChild(1).GetComponent<Scrollbar>().value = 1;
+        }
+
+    }
+
+    public void TabClick(int n)
+    {
+        curPos = SetPos();
+        targetIndex = n;
+        targetPos = pos[n];
+        VerticalScrollUp();
+    }
+
     // Update is called once per frame
     void Update()
     {
         if(!isDrag)
         {
             scrollbar.value = Mathf.Lerp(scrollbar.value, targetPos, 0.1f);
+
+            for (int i = 0; i < SIZE; i++)
+            {
+                if(i == targetIndex)
+                {
+                    BtnRect[i].sizeDelta = new Vector2(700, BtnRect[i].sizeDelta.y);
+                }
+                else
+                {
+                    BtnRect[i].sizeDelta = new Vector2(400, BtnRect[i].sizeDelta.y);
+                }
+            }
         }
     }
 }
