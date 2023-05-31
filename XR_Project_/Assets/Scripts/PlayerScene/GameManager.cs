@@ -6,6 +6,7 @@ using System;                       // 추가
 
 public class GameManager : MonoBehaviour
 {
+    protected SceneChanger SceneChanger => SceneChanger.Instance;
     public enum GameState           //게임 상태값 설정
     {
         Start,
@@ -35,6 +36,7 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {   //게임 오버 로직을 여기에 작성
         CurrentState = GameState.GameOver;
+        SceneChanger.LoadEndScene();
     }
 
     public GameManager() { }
