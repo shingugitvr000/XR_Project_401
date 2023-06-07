@@ -51,7 +51,7 @@ public class SocketClient : MonoBehaviour
 
         MyData receivedData = JsonConvert.DeserializeObject<MyData>(jsonData);          //JSON 데이터를 객체로 역직렬화
 
-        if(receivedData != null && !string.IsNullOrEmpty(receivedData.clientID))        //receivedData 값이 비어 있지 않을 때
+        if (receivedData != null && !string.IsNullOrEmpty(receivedData.clientID))        //receivedData 값이 비어 있지 않을 때
         {
             sendData.clientID = receivedData.clientID;                                  //서버에서 받아온 ID 값을 MyData에 넣는다. 
         }
@@ -63,7 +63,7 @@ public class SocketClient : MonoBehaviour
         Debug.Log("WebSocket connection closed");
         isConnected = false;                                            //연결 끈김 flag 
 
-        if(connectionAttempt < maxConnectionAttempts)                   //총 3번의 시도 
+        if (connectionAttempt < maxConnectionAttempts)                   //총 3번의 시도 
         {
             connectionAttempt++;
             Debug.Log("Attempting to reconnect. Attempt : " + connectionAttempt);
@@ -82,7 +82,7 @@ public class SocketClient : MonoBehaviour
 
     void DisconnectWebSocket()                      //연결된 socket를 Relese 해준다. 
     {
-        if(webSocket != null && isConnected)
+        if (webSocket != null && isConnected)
         {
             webSocket.Close();
             isConnected = false;
@@ -92,6 +92,18 @@ public class SocketClient : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (webSocket == null || !isConnected)
+        {
+            return;
+        }
+
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            sendData.requestType = 0;
+            string jsonData = JsonConvert.SerializeObject(sendData);                //Mydata 를 Json 으로 만들어줌 
+
+            webSocket.Send(jsonData);
+
+        }
     }
 }
